@@ -1,69 +1,112 @@
-# DRISTI — Disaster Responsive Intelligent Simulation & Tracking Interface
+<div align="center">
 
-An AI-powered system for **proactive disaster management** at large-scale events (e.g., Simhastha Kumbh Mela). DRISTI uses **reinforcement learning + simulation** to optimize evacuation, resource allocation, and first-responder routing in real time.
+# 👁️ DRISHTI
+### Disaster Responsive Intelligent Simulator & Tracking Interface
 
-## Key Features
-- **Simulation-first training** on realistic disaster scenarios.
-- **RL agents** for dynamic path planning & resource dispatch.
-- **Live dashboard** for authorities with density heatmaps and asset tracking.
-- **Citizen app** concepts for safe-route guidance and alerts.
-- Modular, production-ready Python package layout.
+![Python](https://img.shields.io/badge/Python-3.9%2B-blue)
+![YOLOv11](https://img.shields.io/badge/AI-YOLOv11-orange)
+![Ultralytics](https://img.shields.io/badge/Framework-Ultralytics-blue)
+![Tkinter](https://img.shields.io/badge/GUI-Tkinter-green)
+![Status](https://img.shields.io/badge/Status-Active-success)
 
-## Quickstart
+**An automated AI annotation and tracking interface for disaster response scenarios.**
+
+[🚀 Getting Started](#-getting-started) | [🛠️ How It Works](#-how-it-works) | [📄 Documentation](docs/)
+
+</div>
+
+---
+
+## 📖 Overview
+
+**DRISHTI** (Vision) is a specialized tool designed to accelerate the creation of disaster datasets. It uses state-of-the-art **YOLOv11** models to automatically detect and annotate objects in disaster footage (floods, rubble, survivors), drastically reducing the time required for manual labeling.
+
+This tool provides a user-friendly GUI that allows first responders or researchers to batch-process folders of images, generating both visual overlays and standard YOLO-format text labels for training downstream models.
+
+## ✨ Key Features
+
+| Feature | Description | Tech Stack |
+| :--- | :--- | :--- |
+| **🤖 Auto-Annotation** | Automatically detects objects and generates bounding boxes. | Ultralytics YOLOv11 |
+| **🏷️ Label Generation** | Exports standard YOLO `.txt` labels for retraining. | Python File I/O |
+| **🖼️ Visual Feedback** | Saves annotated images for verification. | PIL / OpenCV |
+| **🖱️ GUI Interface** | Simple "Point & Click" folder selection. | Tkinter |
+| **⚡ Batch Processing** | Handles distinct datasets with thousands of images. | Python Multiprocessing |
+
+## 🏗️ Workflow
+
+```mermaid
+graph LR
+    User[👤 User] -->|Select Folder| GUI[🖥️ DRISHTI GUI]
+    GUI -->|Load Images| Engine[⚙️ Inference Engine]
+    Engine -->|YOLOv11| Model[🧠 Detection Model]
+    Model -->|Detections| Output
+    
+    subgraph Output Generation
+        Output -->|Draw Boxes| IMG[🖼️ Annotated Images]
+        Output -->|Write coords| TXT[📝 YOLO .txt Labels]
+    end
+```
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Python 3.9+
+- CUDA-enabled GPU (optional, for faster inference)
+
+### 1. Clone the Repository
 ```bash
-# 1) Create environment
-conda create -n dristi python=3.11 -y
-conda activate dristi
+git clone https://github.com/KanavjeetS/DRISHTI.git
+cd DRISHTI
+```
 
-# 2) Install dependencies
+### 2. Install Dependencies
+```bash
 pip install -r requirements.txt
-
-# 3) Run a minimal simulation (placeholder)
-python -m dristi.simulation.run_demo
-
-# 4) Launch dashboard (placeholder Streamlit app)
-streamlit run src/dristi/dashboard/app.py
 ```
 
-## Repository Layout
+### 3. Run the Annotator
+```bash
+python src/drishti_annotator.py
 ```
-src/dristi/          # Core library
-  agents/            # RL agents, policies
-  envs/              # Gym/Gymnasium environments
-  policies/          # Policy networks / wrappers
-  simulation/        # Scenario generators, city grid, crowd models
-  training/          # Train loops, configs, logging
-  evaluation/        # Metrics, rollouts, test suites
-  utils/             # I/O, viz, geometry, map helpers
-  api/               # FastAPI service to serve routes/actions
-  dashboard/         # Streamlit/Gradio dashboard (authority view)
-configs/             # YAML configs for experiments
-data/                # Raw & processed data (git-ignored except .keep)
-models/              # Saved weights (git-ignored except .keep)
-notebooks/           # Research notebooks (your hackathon notebook placed here)
-docs/                # Diagrams, writeups
-tests/               # pytest-based tests
+A window will pop up. Select the folder containing your raw disaster images. The tool will automatically create:
+- `annotated_valid/`: Images with bounding boxes drawn.
+- `annotations_valid/`: Text files with class coordinates.
+
+## 📂 Project Structure
+
+```bash
+DRISHTI/
+├── 🧠 src/
+│   └── drishti_annotator.py  # Main GUI & Inference Logic
+├── 💾 data/
+│   └── samples/              # Sample Disaster Images
+├── 📄 docs/                  # Presentations & Archives
+└── 📝 requirements.txt       # Dependencies
 ```
 
-## How it works (high level)
-- **Simulation**: a grid/graph city with hazards, dynamic blockages, agent-based crowd motion.
-- **Observation**: crowd density, hazard map, resource locations, map features.
-- **Action**: route updates, dispatch orders, traffic control (e.g., one-way lanes), public alerts.
-- **Reward**: minimize casualties, congestion, and response time; penalize dead-ends and unsafe exposure.
-- **Learning**: off-policy (e.g., DQN/TD3) or on-policy (e.g., PPO) via Gymnasium envs; curriculum for difficulty scaling.
+## 🤝 Contributing
 
-## Datasets & Maps
-- Integrate map layers (OSM/GeoJSON), CCTV feeds, and simulated sensors.
-- Add a `data/README.md` explaining sources and licensing (see template).
+Contributions are welcome! Please feel free to submit a Pull Request to support more model architectures (e.g., RT-DETR, Faster-RCNN).
 
-## Reproducibility
-- Deterministic seeds in configs, pinned dependencies, and training logs (W&B optional).
+## 📜 License
 
-## Roadmap
-- Multi-agent coordination (ambulance, fire, police) with joint rewards.
-- Partial observability + comms constraints (POMDP).
-- Real-time routing API deployed behind the dashboard.
-- Hardware-in-the-loop (drones/edge devices) in later phases.
+This project is licensed under the MIT License.
 
-## License
-MIT — see `LICENSE`.
+## ✍️ Citation
+
+If you use DRISHTI in your research, please cite:
+
+```bibtex
+@software{drishti2026,
+  author = {Singh, Kanavjeet},
+  title = {DRISHTI: Disaster Responsive Intelligent Simulator Tracking Interface},
+  year = {2026},
+  url = {https://github.com/KanavjeetS/DRISHTI}
+}
+```
+
+---
+<div align="center">
+  <sub>Built with ❤️ for Safer Communities by <a href="https://github.com/KanavjeetS">Kanavjeet Singh</a></sub>
+</div>

@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Singh"
+  given-names: "Kanavjeet"
+title: "DRISHTI: Disaster Responsive Intelligent Simulator Tracking Interface"
+version: 1.0.0
+date-released: 2026-02-03
+keywords:
+  - "disaster management"
+  - "computer vision"
+  - "yolo"
+  - "auto-annotation"
+license: "MIT"
